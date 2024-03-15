@@ -132,7 +132,7 @@ namespace ArmyDatabase
                 Console.WriteLine("Could not recornize army ID. Returning to main menu.");
                 return;
             }
-            Console.WriteLine("Army - {0}. Enter data in format nick:pass. Enter 0 to finish", (Army)armyId);
+            Console.WriteLine("Army - {0}. Enter data in format nick:pass. Enter 0 to finish", (Group)armyId);
             string input = Console.ReadLine();
             while (!input.Equals("0"))
             {
@@ -143,7 +143,7 @@ namespace ArmyDatabase
                     continue;
                 }
 
-                Account account = new(data[0], data[1], (Army)armyId);
+                Account account = new(data[0], data[1], (Group)armyId);
                 accounts.Add(account);
                 Console.WriteLine("Added account " + account);
                 input = Console.ReadLine();
@@ -163,7 +163,7 @@ namespace ArmyDatabase
                 return;
             }
             List<Account> toPrint = (from acc in accounts
-                                     where acc.ArmyType == (Army)result select acc).ToList();
+                                     where acc.ArmyType == (Group)result select acc).ToList();
             foreach (Account acc in toPrint)
                 Console.WriteLine(acc);
         }
@@ -203,7 +203,7 @@ namespace ArmyDatabase
                     case "2":
                         DisplayArmyID();
                         int opt = int.Parse(Console.ReadLine());
-                        account.ArmyType = (Army)opt;
+                        account.ArmyType = (Group)opt;
                         break;
                     case "3":
                         account.Banned = false;
@@ -231,17 +231,17 @@ namespace ArmyDatabase
 
         private void DisplayStatistics()
         {
-            int total = accounts.Where(acc => acc.ArmyType != Army.SPECIAL).Count();
-            int totalAvailable = accounts.Where(acc=> acc.DaysUntilUnban <= 0 && acc.ArmyType != Army.SPECIAL).Count();
+            int total = accounts.Where(acc => acc.ArmyType != Group.SPECIAL).Count();
+            int totalAvailable = accounts.Where(acc=> acc.DaysUntilUnban <= 0 && acc.ArmyType != Group.SPECIAL).Count();
 
-            int army = accounts.Where(acc=> acc.ArmyType == Army.SV || acc.ArmyType == Army.VMF || acc.ArmyType == Army.VVS).Count();
-            int armyAvailable = accounts.Where(acc => acc.DaysUntilUnban <= 0 && (acc.ArmyType == Army.SV || acc.ArmyType == Army.VMF || acc.ArmyType == Army.VVS)).Count();
+            int army = accounts.Where(acc=> acc.ArmyType == Group.SV || acc.ArmyType == Group.VMF || acc.ArmyType == Group.VVS).Count();
+            int armyAvailable = accounts.Where(acc => acc.DaysUntilUnban <= 0 && (acc.ArmyType == Group.SV || acc.ArmyType == Group.VMF || acc.ArmyType == Group.VVS)).Count();
 
-            int family = accounts.Where(acc => acc.ArmyType == Army.FAMILY).Count();
-            int familyAvailable = accounts.Where(acc => acc.ArmyType == Army.FAMILY && acc.DaysUntilUnban <= 0).Count();
+            int family = accounts.Where(acc => acc.ArmyType == Group.FAMILY).Count();
+            int familyAvailable = accounts.Where(acc => acc.ArmyType == Group.FAMILY && acc.DaysUntilUnban <= 0).Count();
 
-            int kpz = accounts.Where(acc => acc.ArmyType == Army.KPZ).Count();
-            int none = accounts.Where(acc => acc.ArmyType == Army.NONE).Count();
+            int kpz = accounts.Where(acc => acc.ArmyType == Group.KPZ).Count();
+            int none = accounts.Where(acc => acc.ArmyType == Group.NONE).Count();
 
             Console.WriteLine("Total - {0}, available - {2}, banned - {1}", total, total-totalAvailable, totalAvailable);
             Console.WriteLine("Army total - {0}, available - {2}, banned - {1}", army, army-armyAvailable, armyAvailable);
@@ -284,7 +284,7 @@ namespace ArmyDatabase
         {
             DisplayArmyID();
             int result = int.Parse(Console.ReadLine());
-            Account res = (from acc in accounts where acc.ArmyType == (Army)result && acc.Banned == false select acc).FirstOrDefault();
+            Account res = (from acc in accounts where acc.ArmyType == (Group)result && acc.Banned == false select acc).FirstOrDefault();
             if (res == null)
             {
                 Console.WriteLine("Could not find account!");
@@ -304,7 +304,7 @@ namespace ArmyDatabase
             string pass = Console.ReadLine();
             DisplayArmyID();
             int armyId = int.Parse(Console.ReadLine());
-            Army army = (Army)armyId;
+            Group army = (Group)armyId;
             Console.Write("Is account banned (0/1)?:");
             string banned = Console.ReadLine();
             DateTime bannedUntil = DateTime.MinValue;
@@ -367,7 +367,7 @@ namespace ArmyDatabase
         private void ChooseRandom()
         {
             Account? result = (from acc in accounts where (acc.Banned == false &&
-                              acc.ArmyType != Army.NONE) select acc).FirstOrDefault();
+                              acc.ArmyType != Group.NONE) select acc).FirstOrDefault();
             if (result == null)
             {
                 Console.WriteLine("Could not find account!");

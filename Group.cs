@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArmyDatabase
 {
-    internal enum Army
+    internal enum Group
     {
         SV = 0,
         VVS,

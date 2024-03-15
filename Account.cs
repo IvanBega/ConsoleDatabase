@@ -11,11 +11,11 @@ namespace ArmyDatabase
         public string Name { get; set; }
         public string Password { get; set; }
         public bool Banned { get; set; }
-        public Army ArmyType { get; set; }
+        public Group ArmyType { get; set; }
         public DateTime BannedUntil { get; set; }
         public int DaysUntilUnban { get; set; }
         public String Description { get; set; }
-        public Account(string name, string password, Army armyType = Army.UNKNOWN, DateTime? bannedUntil = null, String desc = "")
+        public Account(string name, string password, Group armyType = Group.UNKNOWN, DateTime? bannedUntil = null, String desc = "")
         {
             Name = name;
             Password = password;
